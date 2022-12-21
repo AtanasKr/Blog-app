@@ -345,6 +345,39 @@
                     padding-top: -10px;
                     margin-top: -20px;
                 }
+
+                h1{
+                    font-size: 20px;
+                }
+
+                .file{
+                    text-decoration: underline;
+                    cursor: pointer;
+                }
+
+                .buttons{
+                    display: flex;
+                    justify-content: space-between;
+
+                    :first-child{
+                        cursor: pointer;
+                        color: lightblue;
+                        background-color: white;
+                        border: 1px solid lightblue;
+                        padding: 3px 5px;
+                    }
+
+                    :last-child{
+                        cursor: pointer;
+                        color: white;
+                        background-color: lightblue;
+                        border: 1px solid lightblue;
+                        padding: 3px 5px;
+                    }
+                }
+                .cat{
+                    color: lightblue;
+                }
             }
         }
     }
