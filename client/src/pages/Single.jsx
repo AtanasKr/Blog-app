@@ -1,31 +1,63 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import Edit from '../img/edit-btn.png'
 import Delete from '../img/delete-btn.png'
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Menu } from '../components/Menu'
+import axios from 'axios'
+import moment from 'moment'
+import { useContext } from 'react'
+import { AuthContext } from '../context/authContext'
 
 const Single = () => {
+  const [post,setPost] = useState({})
+  const location = useLocation();
+
+  const postId = location.pathname.split("/")[2];
+  const navigate = useNavigate();
+
+  const {currentUser} = useContext(AuthContext);
+
+  useEffect(()=>{
+    const fetchData = async()=>{
+      try{
+        const res = await axios.get(`/posts/${postId}`)
+        setPost(res.data)
+      }catch(err){
+        console.log(err)
+      }
+    }
+    fetchData();
+  },[postId])
+
+  const handleDelete = async ()=>{
+    try{
+      await axios.delete(`/posts/${postId}`)
+      navigate("/")
+    }catch(err){
+      console.log(err);
+    }
+  }
   return (
     <div className='single'>
       <div className="content-holder">
-        <img src="https://www.w3schools.com/images/lamp.jpg" alt="content-img" />
+        <img src={post?.img} alt="content-img" />
         <div className="user-holder">
-          <img className='user-img' src="https://www.w3schools.com/images/lamp.jpg" alt="user-img" />
+          {post.userImg&&<img className='user-img' src={post.userImg} alt="user-img" />}
           <div className="user-info">
-            <span>John</span>
-            <p>posted 2 days ago</p>
+            <span>{post.username}</span>
+            <p>posted {moment(post.date).fromNow()}</p>
           </div>
-          <div className="edit-holder">
+          {currentUser.username===post.username&&<div className="edit-holder">
             <Link to={`/write?edit=2`}>
             <img className='edit-holder-img' src={Edit} alt="edit-button" />
             </Link>
-            <img className='edit-holder-img' src={Delete} alt="delete-button" />
-          </div>
+            <img className='edit-holder-img' onClick={handleDelete} src={Delete} alt="delete-button" />
+          </div>}
         </div>
-        <h1>Title holder</h1>
-        <p>Text holder</p>
+        <h1>{post.title}</h1>
+        {post.desc}
       </div>
-      <Menu/>
+      <Menu cat={post.cat}/>
     </div>
   )
 }

@@ -20,7 +20,6 @@ const Home = () => {
     }
     fetchData();
   },[cat])
-  console.log(posts)
   // const posts =[
   //   {
   //     id:1,
