@@ -43,19 +43,24 @@ const Home = () => {
   //     img:"https://www.w3schools.com/images/lamp.jpg"
   //   },
   // ]
+
+  const getText = (htmlText) =>{
+    const doc = new DOMParser().parseFromString(htmlText, "text/html")
+    return doc.body.textContent;
+  }
   return (
     <div className='home'>
       <div className="posts">{posts.map((post)=>(
         <div className="post" key={post.id}>
           <div className="img">
-            <img src={post.img} alt="post-img" />
+            <img src={`../upload/${post.img}`} alt="post-img" />
           </div>
           <div className="content">
             <Link className='link' to={`/post/${post.id}`}>
               <h1>{post.title}</h1>
               </Link>
-              <p>{post.desc}</p>
-              <button>Read more</button>
+              <p>{getText(post.desc)}</p>
+              <Link className='link' to={`/post/${post.id}`}><button>Read more</button></Link>
           </div>
         </div>
       ))}

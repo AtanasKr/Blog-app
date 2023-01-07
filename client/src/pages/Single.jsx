@@ -40,7 +40,7 @@ const Single = () => {
   return (
     <div className='single'>
       <div className="content-holder">
-        <img src={post?.img} alt="content-img" />
+        <img src={`../upload/${post.img}`} alt="content-img" />
         <div className="user-holder">
           {post.userImg&&<img className='user-img' src={post.userImg} alt="user-img" />}
           <div className="user-info">
@@ -48,7 +48,7 @@ const Single = () => {
             <p>posted {moment(post.date).fromNow()}</p>
           </div>
           {currentUser.username===post.username&&<div className="edit-holder">
-            <Link to={`/write?edit=2`}>
+            <Link to={`/write?edit=2`} state={post}>
             <img className='edit-holder-img' src={Edit} alt="edit-button" />
             </Link>
             <img className='edit-holder-img' onClick={handleDelete} src={Delete} alt="delete-button" />
