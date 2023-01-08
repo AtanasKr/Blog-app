@@ -37,6 +37,7 @@ const Login = () => {
         <button onClick={handleSubmit}>Login</button>
         {err&&<p>{err}</p>}
         <span>Create new account? <Link to='/register'>Register Here</Link></span>
+        <span>Forgot your password? <Link to='/passreset'>Reset Password</Link></span>
       </form>
     </div>
   )
