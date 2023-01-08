@@ -20,30 +20,7 @@ const Home = () => {
     }
     fetchData();
   },[cat])
-  // const posts =[
-  //   {
-  //     id:1,
-  //     title:"Testing title",
-  //     desc:"Testing desc",
-  //     img:"https://www.w3schools.com/images/lamp.jpg"
-  //   },{
-  //     id:2,
-  //     title:"Testing title",
-  //     desc:"Testing desc",
-  //     img:"https://www.w3schools.com/images/lamp.jpg"
-  //   },{
-  //     id:3,
-  //     title:"Testing title",
-  //     desc:"Testing desc",
-  //     img:"https://www.w3schools.com/images/lamp.jpg"
-  //   },{
-  //     id:4,
-  //     title:"Testing title",
-  //     desc:"Testing desc",
-  //     img:"https://www.w3schools.com/images/lamp.jpg"
-  //   },
-  // ]
-
+  
   const getText = (htmlText) =>{
     const doc = new DOMParser().parseFromString(htmlText, "text/html")
     return doc.body.textContent;

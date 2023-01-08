@@ -20,7 +20,7 @@ const Navbar = () => {
           <Link className='link' to='/?cat=cinema'><h6>CINEMA</h6></Link>
           <Link className='link' to='/?cat=design'><h6>DESIGN</h6></Link>
           <Link className='link' to='/?cat=food'><h6>FOOD</h6></Link>
-          <span>{currentUser? currentUser.username:"Placeholder"}</span>
+          {currentUser&&<span>{currentUser.username}</span>}
           {currentUser ? <span onClick={logout}>Logout</span>:<Link className='link' to="/login">Login</Link>}
           <span className='write'><Link className='link' to='/write'>Write</Link></span>
           </div>

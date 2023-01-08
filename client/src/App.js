@@ -9,6 +9,7 @@ import Login from './pages/Login';
 import Single from './pages/Single';
 import Write from './pages/Write';
 import Home from './pages/Home';
+import Reset from './pages/Reset';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar'
 import './style.scss'
@@ -47,6 +48,9 @@ const router = createBrowserRouter([
   },{
     path: "/login",
     element: <Login/>,
+  },{
+    path: "/resetpassword",
+    element: <Reset/>,
   }
 ]);
 
