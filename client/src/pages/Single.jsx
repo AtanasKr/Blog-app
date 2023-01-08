@@ -30,11 +30,6 @@ const Single = () => {
     fetchData();
   },[postId])
 
-  const getText = (htmlText) =>{
-    const doc = new DOMParser().parseFromString(htmlText, "text/html")
-    return doc.body.textContent;
-  }
-
   const handleDelete = async ()=>{
     try{
       await axios.delete(`/posts/${postId}`)
