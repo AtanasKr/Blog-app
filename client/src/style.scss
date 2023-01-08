@@ -280,12 +280,16 @@
                 border-radius: 20%;
             }
 
-            button{
+            .redirect-holder{
                 border: none;
                 background-color: white;
                 border: 1px solid lightblue;
                 color: rgb(98, 195, 228);
                 border-radius: 20px;
+                padding-right: 5em;
+                padding-left: 5em;
+                margin-right: 3em;
+                margin-left: 3em;
 
                 &:hover{
                     border: 1px solid white;

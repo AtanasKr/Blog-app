@@ -64,13 +64,13 @@ const Write = () => {
             <span>
               <b>Status:</b> Draft
             </span>
-            <span>
+            {/* <span>
               <b>Visibility:</b> Public
-            </span>
+            </span> */}
             <input style={{display:'none'}} type="file" id='file' onChange={e=>setFile(e.target.files[0])}/>
             <label className='file' htmlFor="file">Upload file</label>
             <div className="buttons">
-              <button>Save as a draft</button>
+              {/* <button>Save as a draft</button> */}
               <button onClick={handleClick}>Publish</button>
             </div>
           </div>

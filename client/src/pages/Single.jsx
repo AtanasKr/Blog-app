@@ -7,6 +7,7 @@ import axios from 'axios'
 import moment from 'moment'
 import { useContext } from 'react'
 import { AuthContext } from '../context/authContext'
+import DOMPurify from "dompurify";
 
 const Single = () => {
   const [post,setPost] = useState({})
@@ -28,6 +29,11 @@ const Single = () => {
     }
     fetchData();
   },[postId])
+
+  const getText = (htmlText) =>{
+    const doc = new DOMParser().parseFromString(htmlText, "text/html")
+    return doc.body.textContent;
+  }
 
   const handleDelete = async ()=>{
     try{
@@ -55,7 +61,11 @@ const Single = () => {
           </div>}
         </div>
         <h1>{post.title}</h1>
-        {post.desc}
+        <p
+          dangerouslySetInnerHTML={{
+            __html: DOMPurify.sanitize(post.desc),
+          }}
+        ></p>  
       </div>
       <Menu cat={post.cat}/>
     </div>

@@ -2,6 +2,7 @@ import React from 'react'
 import axios from 'axios';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export const Menu = ({cat}) => {
 
@@ -18,29 +19,6 @@ export const Menu = ({cat}) => {
     }
     fetchData();
   },[cat])
-    // const posts =[
-    //     {
-    //       id:1,
-    //       title:"Testing title",
-    //       desc:"Testing desc",
-    //       img:"https://www.w3schools.com/images/lamp.jpg"
-    //     },{
-    //       id:2,
-    //       title:"Testing title",
-    //       desc:"Testing desc",
-    //       img:"https://www.w3schools.com/images/lamp.jpg"
-    //     },{
-    //       id:3,
-    //       title:"Testing title",
-    //       desc:"Testing desc",
-    //       img:"https://www.w3schools.com/images/lamp.jpg"
-    //     },{
-    //       id:4,
-    //       title:"Testing title",
-    //       desc:"Testing desc",
-    //       img:"https://www.w3schools.com/images/lamp.jpg"
-    //     },
-    //   ];
   return (
     <div className='menu-holder'>
         <h1>Other similar posts</h1>
@@ -48,7 +26,7 @@ export const Menu = ({cat}) => {
             <div className="post" key={post.id}>
                 <img src={`../upload/${post.img}`} alt="similar-post-img" />
                 <h2>{post.title}</h2>
-                <button>Go now</button>
+                <Link to={`/post/${post.id}`}><button className='redirect-holder'>Go now</button></Link>
             </div>
         ))}
     </div>
