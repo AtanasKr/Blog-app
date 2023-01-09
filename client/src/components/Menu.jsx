@@ -25,7 +25,7 @@ export const Menu = ({cat}) => {
         {posts.map(post=>(
             <div className="post" key={post.id}>
                 <img src={`../upload/${post.img}`} alt="similar-post-img" />
-                <h2>{post.title}</h2>
+                <h2>{post.status==="Draft"? post.title+" (Draft)": post.title}</h2>
                 <Link to={`/post/${post.id}`}><button className='redirect-holder'>Go now</button></Link>
             </div>
         ))}

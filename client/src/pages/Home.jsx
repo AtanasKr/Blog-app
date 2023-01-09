@@ -20,7 +20,7 @@ const Home = () => {
     }
     fetchData();
   },[cat])
-  
+
   const getText = (htmlText) =>{
     const doc = new DOMParser().parseFromString(htmlText, "text/html")
     return doc.body.textContent;
@@ -34,7 +34,7 @@ const Home = () => {
           </div>
           <div className="content">
             <Link className='link' to={`/post/${post.id}`}>
-              <h1>{post.title}</h1>
+              <h1>{post.status==="Draft"? post.title+" (Draft)": post.title}</h1>
               </Link>
               <p>{getText(post.desc).substring(0,100)+" ..."}</p>
               <Link className='link' to={`/post/${post.id}`}><button>Read more</button></Link>

@@ -8,6 +8,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 const Write = () => {
 
   const state = useLocation().state;
+  console.log(state);
   const [value, setValue] = useState(state?.desc||'');
   const [title, setTitle] = useState(state?.title||'');
   const [file, setFile] = useState(null);
@@ -25,6 +26,33 @@ const Write = () => {
     }
   };
 
+  const handleClickDraft = async (e) =>{
+    e.preventDefault();
+    const imgUrl = await upload();
+
+    try {
+      state
+        ? await axios.put(`/posts/${state.id}`, {
+            title,
+            desc: value,
+            cat,
+            img: file ? imgUrl : "",
+            status:'Draft',
+          })
+        : await axios.post(`/posts/`, {
+            title,
+            desc: value,
+            cat,
+            img: file ? imgUrl : "",
+            date: moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
+            status:'Draft',
+          });
+          navigate("/")
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   const handleClick = async (e) => {
     e.preventDefault();
     const imgUrl = await upload();
@@ -36,6 +64,7 @@ const Write = () => {
             desc: value,
             cat,
             img: file ? imgUrl : "",
+            status:'Public',
           })
         : await axios.post(`/posts/`, {
             title,
@@ -43,6 +72,7 @@ const Write = () => {
             cat,
             img: file ? imgUrl : "",
             date: moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
+            status:'Public',
           });
           navigate("/")
     } catch (err) {
@@ -62,7 +92,7 @@ const Write = () => {
           <div className="item">
             <h1>Publish</h1>
             <span>
-              <b>Status:</b> Draft
+              <b>Status: {state? state.status: 'Unknown'}</b>
             </span>
             {/* <span>
               <b>Visibility:</b> Public
@@ -70,7 +100,7 @@ const Write = () => {
             <input style={{display:'none'}} type="file" id='file' onChange={e=>setFile(e.target.files[0])}/>
             <label className='file' htmlFor="file">Upload file</label>
             <div className="buttons">
-              {/* <button>Save as a draft</button> */}
+              <button onClick={handleClickDraft}>Save as a draft</button>
               <button onClick={handleClick}>Publish</button>
             </div>
           </div>
