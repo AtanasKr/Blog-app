@@ -1,3 +1,4 @@
+import axios from 'axios'
 import React from 'react'
 import { useContext } from 'react'
 import { useState } from 'react'
@@ -12,7 +13,6 @@ const Login = () => {
 
   const [err,setError] =useState(null);
   const navigate = useNavigate();
-  const {login} = useContext(AuthContext)
 
 
   const handleChange = e =>{
@@ -22,22 +22,19 @@ const Login = () => {
   const handleSubmit = async e =>{
     e.preventDefault();
     try{
-      await login(inputs);
-      navigate("/");
+        await axios.post("/users/changepassword",inputs);
     }catch(err){
       setError(err.response.data);
     }
   }
   return (
     <div className='auth'>
-      <h1>Login</h1>
+      <h1>Change Password</h1>
       <form>
-        <input type="text" placeholder='username' name='username' onChange={handleChange} />
-        <input type="password" placeholder='password' name='password' onChange={handleChange} />
-        <button onClick={handleSubmit}>Login</button>
+      <input required type="email" placeholder='email' onChange={handleChange} name='email'/>
+        <button onClick={handleSubmit}>Send Link</button>
         {err&&<p>{err}</p>}
-        <span>Create new account? <Link to='/register'>Register Here</Link></span>
-        <span>Forgot your password? <Link to='/changepassword'>Change Password</Link></span>
+        <span>Go back to blog? <Link to='/'>Blog</Link></span>
       </form>
     </div>
   )

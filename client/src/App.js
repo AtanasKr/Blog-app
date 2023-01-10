@@ -10,6 +10,8 @@ import Single from './pages/Single';
 import Write from './pages/Write';
 import Home from './pages/Home';
 import Reset from './pages/Reset';
+import Change from './pages/Change';
+import ResetPass from './pages/ResetPass'
 import Footer from './components/Footer';
 import Navbar from './components/Navbar'
 import './style.scss'
@@ -51,6 +53,12 @@ const router = createBrowserRouter([
   },{
     path: "/resetpassword",
     element: <Reset/>,
+  },{
+    path: "/changepassword",
+    element: <Change/>,
+  },{
+    path: "/change-password/:id/:token",
+    element: <ResetPass/>,
   }
 ]);
 

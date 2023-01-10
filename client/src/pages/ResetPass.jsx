@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
-const Reset = () => {
+const ResetPass = () => {
   const [inputs,setInputs] = useState({
     username:"",
     email:"",
@@ -20,7 +20,7 @@ const Reset = () => {
   const handleSubmit = async e =>{
     e.preventDefault();
     try{
-      await axios.put("/users/resetpassword",inputs)
+      await axios.post("/auth/register",inputs)
       navigate("/login");
     }catch(err){
       setError(err.response.data);
@@ -34,13 +34,13 @@ const Reset = () => {
       <form>
         <input required type="text" placeholder='username' onChange={handleChange} name='username' />
         <input required type="email" placeholder='email' onChange={handleChange} name='email'/>
-        <input required type="password" placeholder='new password' onChange={handleChange} name='password'/>
-        <button onClick={handleSubmit}>Reset Password</button>
+        <input required type="password" placeholder='password' onChange={handleChange} name='password'/>
+        <button onClick={handleSubmit}>Reset</button>
         {err && <p>{err}</p>}
-        <span>Want to go back to blog page? <Link to='/'>Back</Link></span>
+        <span>Go back to blog? <Link to='/'>Blog</Link></span>
       </form>
     </div>
   )
 }
 
-export default Reset
+export default ResetPass
