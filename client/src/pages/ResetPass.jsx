@@ -23,6 +23,7 @@ const ResetPass = () => {
     e.preventDefault();
     try{
       await axios.put(`/users/change-password/${id}/${token}`,inputs)
+      alert("Password changed succesfuly!")
       navigate("/login");
     }catch(err){
       setError(err.response.data);

@@ -1,6 +1,7 @@
 import {db} from '../db.js'
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
+import nodemailer from "nodemailer"
 
 export const updatePassword = (req, res) => {
     const q ="UPDATE users SET `password`=? WHERE `username` = ? AND `email` = ?";
@@ -28,7 +29,29 @@ export const updatePassword = (req, res) => {
       });
 
       const link = `http://localhost:3000/change-password/${data[0].id}/${token}`
-      console.log(link);
+      var transporter = nodemailer.createTransport({
+        host: "smtp.mailtrap.io",
+        port: 2525,
+        auth: {
+          user: "756b98b5b9bfd6",
+          pass: "444fef024d28fe"
+        }
+      });
+      
+      let mailOptions = {
+        from: 'X-blogs@gmail.com',
+        to: data[0].email,
+        subject: 'Reset password link for Xblogs',
+        text: "Your reset link for Xblogs is:"+link
+      };
+      
+      transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent: ' + info.response);
+        }
+      });
 
     });
   };
