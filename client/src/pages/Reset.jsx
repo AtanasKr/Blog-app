@@ -1,17 +1,19 @@
+import axios from 'axios'
 import React from 'react'
+import { useContext } from 'react'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import { AuthContext } from '../context/authContext'
 
 const Reset = () => {
   const [inputs,setInputs] = useState({
     username:"",
-    email:"",
     password:"",
   })
 
   const [err,setError] =useState(null);
   const navigate = useNavigate();
+
 
   const handleChange = e =>{
     setInputs(prev=>({...prev,[e.target.name]:e.target.value}))
@@ -20,24 +22,19 @@ const Reset = () => {
   const handleSubmit = async e =>{
     e.preventDefault();
     try{
-      await axios.put("/users/resetpassword",inputs)
-      navigate("/login");
+        await axios.post("/users/changepassword",inputs);
     }catch(err){
       setError(err.response.data);
     }
   }
-
-  console.log(inputs)
   return (
     <div className='auth'>
       <h1>Reset Password</h1>
       <form>
-        <input required type="text" placeholder='username' onChange={handleChange} name='username' />
-        <input required type="email" placeholder='email' onChange={handleChange} name='email'/>
-        <input required type="password" placeholder='new password' onChange={handleChange} name='password'/>
-        <button onClick={handleSubmit}>Reset Password</button>
-        {err && <p>{err}</p>}
-        <span>Want to go back to blog page? <Link to='/'>Back</Link></span>
+      <input required type="email" placeholder='email' onChange={handleChange} name='email'/>
+        <button onClick={handleSubmit}>Send Link</button>
+        {err&&<p>{err}</p>}
+        <span>Go back to blog? <Link to='/'>Blog</Link></span>
       </form>
     </div>
   )

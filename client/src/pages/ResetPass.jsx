@@ -1,12 +1,11 @@
 import React from 'react'
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 const ResetPass = () => {
   const [inputs,setInputs] = useState({
     username:"",
-    email:"",
     password:"",
   })
 
@@ -16,11 +15,14 @@ const ResetPass = () => {
   const handleChange = e =>{
     setInputs(prev=>({...prev,[e.target.name]:e.target.value}))
   }
+  const path = useLocation().pathname.slice(17);
+  const id = path.split("/")[0];
+  const token = path.split("/")[1];
 
   const handleSubmit = async e =>{
     e.preventDefault();
     try{
-      await axios.post("/auth/register",inputs)
+      await axios.put(`/users/change-password/${id}/${token}`,inputs)
       navigate("/login");
     }catch(err){
       setError(err.response.data);
@@ -33,8 +35,7 @@ const ResetPass = () => {
       <h1>Reset Password</h1>
       <form>
         <input required type="text" placeholder='username' onChange={handleChange} name='username' />
-        <input required type="email" placeholder='email' onChange={handleChange} name='email'/>
-        <input required type="password" placeholder='password' onChange={handleChange} name='password'/>
+        <input required type="password" placeholder='new password' onChange={handleChange} name='password'/>
         <button onClick={handleSubmit}>Reset</button>
         {err && <p>{err}</p>}
         <span>Go back to blog? <Link to='/'>Blog</Link></span>

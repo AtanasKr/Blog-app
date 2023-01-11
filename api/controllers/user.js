@@ -27,7 +27,7 @@ export const updatePassword = (req, res) => {
         expiresIn: "5m",
       });
 
-      const link = `http://localhost:8800/api/users/change-password/${data[0].id}/${token}`
+      const link = `http://localhost:3000/change-password/${data[0].id}/${token}`
       console.log(link);
 
     });
@@ -39,11 +39,20 @@ export const updatePassword = (req, res) => {
     db.query(q,[id], (err,data)=>{
       if(err) return res.json(err)
       if(data.length===0) return res.status(404).json("User dose not exist");
-      const secret = "5D6B46340025C11961A8502D793EDECC83A73F74838F213DB640F3A89CE247C3 - "+data[0].password;
       try{
+        const secret = "5D6B46340025C11961A8502D793EDECC83A73F74838F213DB640F3A89CE247C3 - "+data[0].password;
         jwt.verify(token,secret);
-        res.send("Verified")
+        const q ="UPDATE users SET `password`=? WHERE `id` = ?";
+
+        const salt = bcrypt.genSaltSync(10);
+        const hash = bcrypt.hashSync(req.body.password,salt)
+        
+        db.query(q, [hash, id], (err, data) => {
+          if (err) return res.status(500).json(err);
+          return res.json("Password has been reset.");
+        });
       }catch(err){
+        console.log(err);
         res.send("Not valid");
       }
 

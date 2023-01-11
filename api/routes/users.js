@@ -5,6 +5,6 @@ const router = express.Router();
 
 router.put("/resetpassword",updatePassword);
 router.post("/changepassword",changePassword);
-router.get("/change-password/:id/:token",changePasswordOpen);
+router.put("/change-password/:id/:token",changePasswordOpen);
 
 export default router;
