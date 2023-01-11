@@ -48,6 +48,7 @@ const Write = () => {
             status:'Draft',
           });
           navigate("/")
+      console.log(cat)
     } catch (err) {
       console.log(err);
     }
@@ -131,8 +132,11 @@ const Write = () => {
               <label htmlFor="food">Food</label>
             </div>
             <div className="cat">
-              <input type="radio" checked={cat==="sport"} name='cat' value='sport' id='sport' onChange={e=>setCat(e.target.value)}/>
+              <input type="radio" checked={cat==="sport"} name='cat' value='sport' id='sport' onChange={e=>{setCat(e.target.value) }}/>
               <label htmlFor="sport">Sport</label>
+            </div>
+            <div className="cat">
+              <input  name='cat' placeholder='Enter other categories' value={cat? cat:""} id='other' onChange={e=>setCat(e.target.value)}/>
             </div>
           </div>
         </div>
