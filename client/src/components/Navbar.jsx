@@ -10,7 +10,7 @@ const Navbar = () => {
 
   const handleRedirect = (e) =>{
     e.preventDefault();
-    navigate("/resetpassword")
+    navigate("/changepassword")
   }
 
   const handleLogOut = (e) =>{
