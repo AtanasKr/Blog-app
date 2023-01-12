@@ -22,6 +22,7 @@ const Single = () => {
     const fetchData = async()=>{
       try{
         const res = await axios.get(`/posts/${postId}`)
+        console.log(res.data)
         setPost(res.data)
       }catch(err){
         console.log(err)
@@ -48,7 +49,7 @@ const Single = () => {
             <span>{post.username}</span>
             <p>posted {moment(post.date).fromNow()}</p>
           </div>
-          {currentUser.username===post.username&&<div className="edit-holder">
+          {currentUser&&currentUser.username===post.username&&<div className="edit-holder">
             <Link to={`/write?edit=2`} state={post}>
             <img className='edit-holder-img' src={Edit} alt="edit-button" />
             </Link>

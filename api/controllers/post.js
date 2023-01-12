@@ -6,15 +6,15 @@ export const getPosts = (req,res) =>{
     if (token){
         jwt.verify(token, "jwtkey", (err, userInfo) => {
             if (err) return res.status(403).json("Token is not valid!");
-
-            const q = req.query.cat ? "SELECT * FROM posts p JOIN categories c on p.cid=c.id WHERE c.name=? AND (status='Public' OR (status='Draft' AND uid = "+userInfo.id+"))":"SELECT * FROM posts  WHERE status='Public' OR (status='Draft' AND uid = "+userInfo.id+")";
+            const q = req.query.cat ? "SELECT p.id, p.title, p.desc, p.img, p.date, p.uid, p.status, p.cid FROM posts p INNER JOIN categories c on p.cid=c.id WHERE c.name=? AND (p.status='public' OR (p.status='draft' AND p.uid="+userInfo.id+"))":"SELECT * FROM posts";
             db.query(q,[req.query.cat], (err,data)=>{
                 if(err) return res.status(500).send(err)
+                console.log(data)
                 return res.status(200).json(data);
             });
         })
     }else{
-        const q = req.query.cat ? "SELECT * FROM posts p JOIN categories c on p.cid=c.id WHERE c.name=?":"SELECT * FROM posts";
+        const q = req.query.cat ? "SELECT p.id, p.title, p.desc, p.img, p.date, p.uid, p.status, p.cid FROM posts p INNER JOIN categories c on p.cid=c.id WHERE c.name=?":"SELECT * FROM posts";
             
         db.query(q,[req.query.cat], (err,data)=>{
             if(err) return res.status(500).send(err)
@@ -24,10 +24,11 @@ export const getPosts = (req,res) =>{
 }
 
 export const getPost = (req,res) =>{
-    const q = "SELECT p.id, `username`, `title`, `desc`, p.img, u.img as userImg, c.name as cat,`date`, `status` FROM users u JOIN posts p ON u.id=p.uid JOIN categories c ON p.cid=c.id where p.id=?"
+    const q = "SELECT `username`, `title`, `desc`, p.img, u.img as userImg, c.name as cat,`date`, `status` FROM users u JOIN posts p ON u.id=p.uid JOIN categories c ON p.cid=c.id where p.id=?"
 
     db.query(q,[req.params.id], (err,data)=>{
         if(err) return res.status(500).json(err)
+        console.log(data)
         return res.status(200).json(data[0]);
     })
 }
