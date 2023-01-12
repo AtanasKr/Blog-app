@@ -34,8 +34,8 @@ const Navbar = () => {
           <Link className='link' to='/?cat=food'><h6>FOOD</h6></Link>
           <Link className='link' to='/?cat=other'><h6><strong>OTHER</strong></h6></Link>
           {currentUser&&<span onClick={handleRedirect}>{currentUser.username}</span>}
-          {currentUser ? <span onClick={handleLogOut}>Logout</span>:<Link className='link' to="/login">Login</Link>}
-          <span className='write'><Link className='link' to='/write'>Write</Link></span>
+          {currentUser?<span onClick={handleLogOut}>Logout</span>:<Link className='link' to="/login">Login</Link>}
+          {currentUser&&<span className='write'><Link className='link' to='/write'>Write</Link></span>}
           </div>
       </div>
     </div>
