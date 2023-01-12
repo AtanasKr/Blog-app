@@ -6,11 +6,20 @@ export const getPosts = (req,res) =>{
     if (token){
         jwt.verify(token, "jwtkey", (err, userInfo) => {
             if (err) return res.status(403).json("Token is not valid!");
-            const q = req.query.cat ? "SELECT p.id, p.title, p.desc, p.img, p.date, p.uid, p.status, p.cid FROM posts p INNER JOIN categories c on p.cid=c.id WHERE c.name=? AND (p.status='public' OR (p.status='draft' AND p.uid="+userInfo.id+"))":"SELECT * FROM posts WHERE posts.status='public' OR (posts.status='draft' AND posts.uid="+userInfo.id+")";
-            db.query(q,[req.query.cat], (err,data)=>{
-                if(err) return res.status(500).send(err)
-                return res.status(200).json(data);
-            });
+
+            if(req.query.cat!=="other"){
+                const q = req.query.cat ? "SELECT p.id, p.title, p.desc, p.img, p.date, p.uid, p.status, p.cid FROM posts p INNER JOIN categories c on p.cid=c.id WHERE c.name=? AND (p.status='public' OR (p.status='draft' AND p.uid="+userInfo.id+"))":"SELECT * FROM posts WHERE posts.status='public' OR (posts.status='draft' AND posts.uid="+userInfo.id+")";
+                db.query(q,[req.query.cat], (err,data)=>{
+                    if(err) return res.status(500).send(err)
+                    return res.status(200).json(data);
+                });
+            }else{
+                const q = req.query.cat ? "SELECT p.id, p.title, p.desc, p.img, p.date, p.uid, p.status, p.cid FROM posts p INNER JOIN categories c on p.cid=c.id WHERE NOT c.id IN ('1','2','3','4','5','6','7') AND (p.status='public' OR (p.status='draft' AND p.uid="+userInfo.id+"))":"SELECT * FROM posts WHERE posts.status='public' OR (posts.status='draft' AND posts.uid="+userInfo.id+")";
+                db.query(q,[req.query.cat], (err,data)=>{
+                    if(err) return res.status(500).send(err)
+                    return res.status(200).json(data);
+                });
+            }
         })
     }else{
         const q = req.query.cat ? "SELECT p.id, p.title, p.desc, p.img, p.date, p.uid, p.status, p.cid FROM posts p INNER JOIN categories c on p.cid=c.id WHERE c.name=? AND p.status='public'":"SELECT * FROM posts WHERE posts.status='public'";
