@@ -9,7 +9,6 @@ export const getPosts = (req,res) =>{
             const q = req.query.cat ? "SELECT p.id, p.title, p.desc, p.img, p.date, p.uid, p.status, p.cid FROM posts p INNER JOIN categories c on p.cid=c.id WHERE c.name=? AND (p.status='public' OR (p.status='draft' AND p.uid="+userInfo.id+"))":"SELECT * FROM posts WHERE posts.status='public'";
             db.query(q,[req.query.cat], (err,data)=>{
                 if(err) return res.status(500).send(err)
-                console.log(data)
                 return res.status(200).json(data);
             });
         })
@@ -24,11 +23,10 @@ export const getPosts = (req,res) =>{
 }
 
 export const getPost = (req,res) =>{
-    const q = "SELECT `username`, `title`, `desc`, p.img, u.img as userImg, c.name as cat,`date`, `status` FROM users u JOIN posts p ON u.id=p.uid JOIN categories c ON p.cid=c.id where p.id=?"
+    const q = "SELECT p.id, `username`, `title`, `desc`, p.img, u.img as userImg, c.name as cat,`date`, `status` FROM users u JOIN posts p ON u.id=p.uid JOIN categories c ON p.cid=c.id where p.id=?"
 
     db.query(q,[req.params.id], (err,data)=>{
         if(err) return res.status(500).json(err)
-        console.log(data)
         return res.status(200).json(data[0]);
     })
 }
@@ -133,7 +131,8 @@ export const updatePost = (req, res) => {
       let predefinedCat = [];
       let q = '';
       let values = [];
-      const postId = req.params.id
+      const postId = req.params.id;
+      console.log(postId)
 
       const qDefinedCat = "SELECT * FROM categories";
       db.query(qDefinedCat,(err,data)=>{
@@ -165,6 +164,11 @@ export const updatePost = (req, res) => {
               values = [req.body.title, req.body.desc, req.body.img, position, req.body.status];
             }
 
+            db.query(q, [...values, postId, userInfo.id], (err, data) => {
+                if (err) return res.status(500).json(err);
+                return res.json("Post has been updated.");
+              });
+
           }else{
 
             const qAddNewCat = "INSERT INTO categories (`name`) VALUES(?)"
@@ -182,15 +186,15 @@ export const updatePost = (req, res) => {
                   //   values = [req.body.title, req.body.desc, req.body.img, req.body.cat, req.body.status];
                     values = [req.body.title, req.body.desc, req.body.img, position, req.body.status];
                   }
+
+                  db.query(q, [...values, postId, userInfo.id], (err, data) => {
+                    if (err) return res.status(500).json(err);
+                    return res.json("Post has been updated.");
+                  });
                 
             });
 
           }
-
-          db.query(q, [...values, postId, userInfo.id], (err, data) => {
-            if (err) return res.status(500).json(err);
-            return res.json("Post has been updated.");
-          });
       });
       
     });
